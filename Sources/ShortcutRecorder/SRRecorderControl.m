@@ -600,9 +600,6 @@ static void *_SRStyleGuideObservingContext = &_SRStyleGuideObservingContext;
 
 - (void)endRecording
 {
-    if (!self.isRecording)
-        return;
-
     os_activity_initiate("-[SRRecorderControl endRecording]", OS_ACTIVITY_FLAG_DEFAULT, ^{
         [self endRecordingWithObjectValue:self->_objectValue];
     });
@@ -610,9 +607,6 @@ static void *_SRStyleGuideObservingContext = &_SRStyleGuideObservingContext;
 
 - (void)clearAndEndRecording
 {
-    if (!self.isRecording)
-        return;
-
     os_activity_initiate("-[SRRecorderControl clearAndEndRecording]", OS_ACTIVITY_FLAG_DEFAULT, ^{
         [self endRecordingWithObjectValue:nil];
     });
@@ -620,6 +614,8 @@ static void *_SRStyleGuideObservingContext = &_SRStyleGuideObservingContext;
 
 - (void)endRecordingWithObjectValue:(SRShortcut *)anObjectValue
 {
+    NSParameterAssert(!self.isRecording || (self.isRecording && self.superview));
+
     if (!self.isRecording)
         return;
 
@@ -1535,6 +1531,12 @@ static void *_SRStyleGuideObservingContext = &_SRStyleGuideObservingContext;
     }
 
     [super viewWillMoveToWindow:aWindow];
+}
+
+- (void)viewWillMoveToSuperview:(NSView *)aSuperview
+{
+    [self endRecording];
+    [super viewWillMoveToSuperview:aSuperview];
 }
 
 - (void)viewDidChangeBackingProperties
