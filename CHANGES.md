@@ -1,3 +1,11 @@
+3.5.0 (TBD)
+---
+
+Fixes:
+
+- Fix an exception when the control is deallocated while still in the recording state
+- Fix bitwise OR instead of logicat OR is the KeyCode transformer
+
 3.4.0 (2022-08-17)
 ---
 
