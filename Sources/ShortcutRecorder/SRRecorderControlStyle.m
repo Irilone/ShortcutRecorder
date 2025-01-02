@@ -408,11 +408,11 @@ NSUserInterfaceLayoutDirection SRRecorderControlStyleComponentsLayoutDirectionTo
     else if (self.layoutDirection != anOtherComponents.layoutDirection)
         return CompareEnum(self.layoutDirection,
                            anOtherComponents.layoutDirection,
-                           AppearanceOrderMap[@(anIdealComponents.layoutDirection)]);
+                           DirectionOrderMap[@(anIdealComponents.layoutDirection)]);
     else if (self.tint != anOtherComponents.tint)
         return CompareEnum(self.tint,
                            anOtherComponents.tint,
-                           AppearanceOrderMap[@(anIdealComponents.tint)]);
+                           TintOrderMap[@(anIdealComponents.tint)]);
     else
         return NSOrderedSame;
 }
