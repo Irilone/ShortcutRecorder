@@ -160,7 +160,7 @@ typedef TISInputSourceRef (*_SRKeyCodeTransformerCacheInputSourceCreate)(void);
         return (__bridge_transfer id)_inputSourceCreator();
 }
 
-- (nullable NSString *)translateKeyCode:(SRKeyCode)aKeyCode
+- (NSString *)translateKeyCode:(SRKeyCode)aKeyCode
                   implicitModifierFlags:(NSEventModifierFlags)anImplicitModifierFlags
                   explicitModifierFlags:(NSEventModifierFlags)anExplicitModifierFlags
                              usingCache:(BOOL)anIsUsingCache

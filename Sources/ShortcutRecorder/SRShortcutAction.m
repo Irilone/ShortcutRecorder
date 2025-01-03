@@ -703,13 +703,13 @@ static void *_SRShortcutMonitorContext = &_SRShortcutMonitorContext;
     }
 }
 
-- (nullable NSMutableOrderedSet<SRShortcutAction *> *)_enabledActionsForShortcut:(nonnull SRShortcut *)aShortcut
+- (NSMutableOrderedSet<SRShortcutAction *> *)_enabledActionsForShortcut:(nonnull SRShortcut *)aShortcut
                                                                         keyEvent:(SRKeyEventType)aKeyEvent
 {
     return [[self _shortcutToEnabledActionsForKeyEvent:aKeyEvent] objectForKey:aShortcut];
 }
 
-- (nonnull SRShortcut *)_shortcutForEnabledAction:(nonnull SRShortcutAction *)anAction hint:(nullable SRShortcut *)aShortcut
+- (SRShortcut *)_shortcutForEnabledAction:(nonnull SRShortcutAction *)anAction hint:(nullable SRShortcut *)aShortcut
 {
     NSParameterAssert([_enabledActions containsObject:anAction]);
 

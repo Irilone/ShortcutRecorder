@@ -167,7 +167,7 @@ static os_log_t _Log;
       charactersIgnoringModifiers:nil];
 }
 
-+ (nullable instancetype)shortcutWithKeyBinding:(NSString *)aKeyBinding
++ (instancetype)shortcutWithKeyBinding:(NSString *)aKeyBinding
 {
     return [SRKeyBindingTransformer.sharedTransformer transformedValue:aKeyBinding];
 }
@@ -375,7 +375,7 @@ static os_log_t _Log;
 
 #pragma mark Subscript
 
-- (nullable id)objectForKeyedSubscript:(SRShortcutKey)aKey
+- (id)objectForKeyedSubscript:(SRShortcutKey)aKey
 {
     if ([aKey isEqualToString:SRShortcutKeyKeyCode])
         return @(self.keyCode);

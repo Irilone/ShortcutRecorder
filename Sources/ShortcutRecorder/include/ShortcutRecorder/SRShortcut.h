@@ -96,7 +96,10 @@ NS_SWIFT_NAME(Shortcut)
  */
 + (nullable instancetype)shortcutWithKeyBinding:(NSString *)aKeyBinding;
 
-+ (instancetype)new NS_UNAVAILABLE;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability"
++ (nullable instancetype)new NS_UNAVAILABLE;
+#pragma clang diagnostic pop
 
 /*!
  Designated initializer.
@@ -118,7 +121,10 @@ NS_SWIFT_NAME(Shortcut)
                   characters:(nullable NSString *)aCharacters
  charactersIgnoringModifiers:(nullable NSString *)aCharactersIgnoringModifiers NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)init NS_UNAVAILABLE;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability"
+- (nullable instancetype)init NS_UNAVAILABLE;
+#pragma clang diagnostic pop
 
 /*!
  A key code such as 0 ('a').
