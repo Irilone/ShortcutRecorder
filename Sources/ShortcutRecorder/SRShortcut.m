@@ -3,8 +3,6 @@
 //  CC BY 4.0
 //
 
-#import <os/trace.h>
-
 #import "ShortcutRecorder/SRCommon.h"
 #import "ShortcutRecorder/SRKeyCodeTransformer.h"
 #import "ShortcutRecorder/SRShortcutFormatter.h"
@@ -18,6 +16,9 @@ SRShortcutKey const SRShortcutKeyKeyCode = @"keyCode";
 SRShortcutKey const SRShortcutKeyModifierFlags = @"modifierFlags";
 SRShortcutKey const SRShortcutKeyCharacters = @"characters";
 SRShortcutKey const SRShortcutKeyCharactersIgnoringModifiers = @"charactersIgnoringModifiers";
+
+
+static os_log_t _Log;
 
 
 @implementation SRShortcut
@@ -43,7 +44,7 @@ SRShortcutKey const SRShortcutKeyCharactersIgnoringModifiers = @"charactersIgnor
     __auto_type eventType = aKeyboardEvent.type;
     if (((1 << eventType) & (NSEventMaskKeyDown | NSEventMaskKeyUp | NSEventMaskFlagsChanged)) == 0)
     {
-        os_trace_error("#Error aKeyboardEvent must be either NSEventTypeKeyUp, NSEventTypeKeyDown or NSEventTypeFlagsChanged, but got %lu", aKeyboardEvent.type);
+        SRLogError(_Log, "aKeyboardEvent must be NSEventTypeKeyDown (10), NSEventTypeKeyUp (11) or NSEventTypeFlagsChanged (12), got %lu instead", aKeyboardEvent.type);
         return nil;
     }
 
@@ -80,7 +81,7 @@ SRShortcutKey const SRShortcutKeyCharactersIgnoringModifiers = @"charactersIgnor
                 if (!NSThread.isMainThread)
                 {
                     NSParameterAssert(NO);
-                    os_trace_error("#Error #Developer AppKit failed to extract characters because it is used in a non-main thread, see SRShortcut/shortcutWithEvent:ignoringCharacters:");
+                    SRLogError(_Log, "AppKit failed to extract characters because it is used in a non-main thread, see SRShortcut/shortcutWithEvent:ignoringCharacters:");
                 }
                 else
                     @throw;
@@ -425,6 +426,14 @@ SRShortcutKey const SRShortcutKeyCharactersIgnoringModifiers = @"charactersIgnor
 
 #pragma mark NSObject
 
++ (void)initialize
+{
+    static dispatch_once_t OnceToken;
+    dispatch_once(&OnceToken, ^{
+        _Log = os_log_create(SRLogSubsystem.UTF8String, SRLogCategoryKeyBindingTransformer.UTF8String);
+    });
+}
+
 + (instancetype)new
 {
     [self doesNotRecognizeSelector:_cmd];
@@ -470,7 +479,7 @@ SRShortcutKey const SRShortcutKeyCharactersIgnoringModifiers = @"charactersIgnor
 - (UInt32)carbonKeyCode
 {
     if (self.keyCode == SRKeyCodeNone)
-        os_trace_error("#Critical SRKeyCodeNone has no representation in Carbon");
+        SRLogError(_Log, "SRKeyCodeNone has no representation in Carbon");
 
     return self.keyCode;
 }
