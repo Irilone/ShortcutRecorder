@@ -508,7 +508,7 @@ static os_log_t _Log;
         case SRKeyCodeF18:
         case SRKeyCodeF19:
         case SRKeyCodeF20:
-            return SRCocoaToCarbonFlags(self.modifierFlags) | NSFunctionKeyMask;
+            return SRCocoaToCarbonFlags(self.modifierFlags) | NSEventModifierFlagFunction;
         default:
             return SRCocoaToCarbonFlags(self.modifierFlags);
     }

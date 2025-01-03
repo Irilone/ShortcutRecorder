@@ -1686,26 +1686,14 @@ CGEventRef _Nullable _SRQuartzEventHandler(CGEventTapProxy aProxy, CGEventType a
     NSURL *systemKeyBindingsURL = [appKitBundle URLForResource:@"StandardKeyBinding" withExtension:@"dict"];
     NSDictionary *systemKeyBindings = nil;
 
-    if (@available(macOS 10.13, *))
+    NSError *error = nil;
+    systemKeyBindings = [NSDictionary dictionaryWithContentsOfURL:systemKeyBindingsURL error:&error];
+    if (!systemKeyBindings)
     {
-        NSError *error = nil;
-        systemKeyBindings = [NSDictionary dictionaryWithContentsOfURL:systemKeyBindingsURL error:&error];
-        if (!systemKeyBindings)
-        {
-            SRLogError(_MonitorLog, "#local failed to read system key bindings (%ld): %s",
-                       error.code,
-                       error.localizedDescription.UTF8String);
-            systemKeyBindings = @{};
-        }
-    }
-    else
-    {
-        systemKeyBindings = [NSDictionary dictionaryWithContentsOfURL:systemKeyBindingsURL];
-        if (!systemKeyBindings)
-        {
-            SRLogError(_MonitorLog, "#local failed to read system key bindings");
-            systemKeyBindings = @{};
-        }
+        SRLogError(_MonitorLog, "#local failed to read system key bindings (%ld): %s",
+                   error.code,
+                   error.localizedDescription.UTF8String);
+        systemKeyBindings = @{};
     }
 
     return systemKeyBindings;
@@ -1716,26 +1704,14 @@ CGEventRef _Nullable _SRQuartzEventHandler(CGEventTapProxy aProxy, CGEventType a
     NSURL *userKeyBindingsURL = [NSURL fileURLWithPath:[@"~/Library/KeyBindings/DefaultKeyBinding.dict" stringByExpandingTildeInPath]];
     NSDictionary *userKeyBindings = nil;
 
-    if (@available(macOS 10.13, *))
+    NSError *error = nil;
+    userKeyBindings = [NSDictionary dictionaryWithContentsOfURL:userKeyBindingsURL error:&error];
+    if (!userKeyBindings)
     {
-        NSError *error = nil;
-        userKeyBindings = [NSDictionary dictionaryWithContentsOfURL:userKeyBindingsURL error:&error];
-        if (!userKeyBindings)
-        {
-            SRLogDebug(_MonitorLog, "#local failed to read user key bindings (%ld): %s",
-                       error.code,
-                       error.localizedDescription.UTF8String);
-            userKeyBindings = @{};
-        }
-    }
-    else
-    {
-        userKeyBindings = [NSDictionary dictionaryWithContentsOfURL:userKeyBindingsURL];
-        if (!userKeyBindings)
-        {
-            SRLogDebug(_MonitorLog, "#local failed to read user key bindings");
-            userKeyBindings = @{};
-        }
+        SRLogDebug(_MonitorLog, "#local failed to read user key bindings (%ld): %s",
+                   error.code,
+                   error.localizedDescription.UTF8String);
+        userKeyBindings = @{};
     }
 
     return userKeyBindings;
