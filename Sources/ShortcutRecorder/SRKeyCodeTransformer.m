@@ -161,9 +161,9 @@ typedef TISInputSourceRef (*_SRKeyCodeTransformerCacheInputSourceCreate)(void);
 }
 
 - (NSString *)translateKeyCode:(SRKeyCode)aKeyCode
-                  implicitModifierFlags:(NSEventModifierFlags)anImplicitModifierFlags
-                  explicitModifierFlags:(NSEventModifierFlags)anExplicitModifierFlags
-                             usingCache:(BOOL)anIsUsingCache
+         implicitModifierFlags:(NSEventModifierFlags)anImplicitModifierFlags
+         explicitModifierFlags:(NSEventModifierFlags)anExplicitModifierFlags
+                    usingCache:(BOOL)anIsUsingCache
 {
     if (aKeyCode == SRKeyCodeNone)
         return @"";

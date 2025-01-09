@@ -86,6 +86,8 @@ NS_SWIFT_NAME(Shortcut)
 
 /*!
  Initialize the shortcut from a left-to-right ASCII key code and symbolic modifier flags e.g. @"⇧⌘A".
+
+ @note May return `nil` if the given ASCII key code does not have a corresponding physical keyboard key under the active input source.
  */
 + (nullable instancetype)shortcutWithKeyEquivalent:(NSString *)aKeyEquivalent;
 
